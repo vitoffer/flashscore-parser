@@ -38,13 +38,23 @@ pip install -r requirements.txt
 
 ### from_console.py
 
-Запустите скрипт, и введите в консоль ссылку на матч в формате
+Запустите скрипт
+
+```sh
+python from_console.py
+```
+
+и введите в консоль ссылку на матч в формате
 
 > https://www.flashscorekz.com/match/{id_матча}/#/match-summary/live-commentary/0
 
 ### from_txt.py
 
 Создайте файл **input.txt** в каталоге со скриптом, в который введите нужные ссылки каждая с новой строки и запустите скрипт
+
+```sh
+python from_txt.py
+```
 
 ## Результат
 
