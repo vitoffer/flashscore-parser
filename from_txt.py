@@ -48,7 +48,7 @@ try:
         detailed_title = title_splitted[1]
 
         try:
-            element = WebDriverWait(driver, 3).until(
+            element = WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, 'liveCommentary'))
             )
         except TimeoutException:
