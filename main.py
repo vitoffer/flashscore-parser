@@ -7,10 +7,10 @@ import re
 
 example_link = "https://www.flashscorekz.com/match/bcDpMvcR/#/match-summary/live-commentary/0"
 
-# print("Введите ссылку:")
-# input_link = input()
+print("Введите ссылку:")
+input_link = input()
 
-input_link = example_link
+# input_link = example_link
 
 pattern = re.compile(r"https://www\.flashscorekz\.com/match/bcDpMvcR/?(#.*)?")
 
