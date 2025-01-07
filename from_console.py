@@ -1,11 +1,20 @@
 from selenium import webdriver
-from selenium.common import TimeoutException
+from selenium.common import TimeoutException, StaleElementReferenceException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
 import os
+import time
+
+
+def get_comments_with_retry(given_driver, delay=0.1):
+    while True:
+        try:
+            return [elem.text for elem in given_driver.find_elements(By.CSS_SELECTOR, '[data-testid="wcl-commentary"]')]
+        except StaleElementReferenceException:
+            time.sleep(delay)
 
 
 # example_link = "https://www.flashscorekz.com/match/bcDpMvcR/#/match-summary/live-commentary/0"
@@ -26,6 +35,7 @@ firefox_options.add_argument("--no-sandbox")
 firefox_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Firefox(options=firefox_options)
+driver.set_page_load_timeout(120)
 
 driver.get(input_link)
 
@@ -35,14 +45,13 @@ detailed_title = title_splitted[1]
 
 try:
     try:
-        element = WebDriverWait(driver, 3).until(
+        element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'liveCommentary'))
         )
     except TimeoutException:
         print(f"Не удалось прочитать текстовую трансляцию матча {detailed_title} (возможно, матч еще не состоялся)")
 
-    comments_elements = driver.find_elements(By.CSS_SELECTOR, '[data-testid="wcl-commentary"]')
-    comments = [elem.text for elem in comments_elements]
+    comments = get_comments_with_retry(driver)
 finally:
     driver.quit()
 

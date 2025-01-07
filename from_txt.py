@@ -1,4 +1,3 @@
-import time
 from selenium import webdriver
 from selenium.common import StaleElementReferenceException
 from selenium.common.exceptions import TimeoutException
@@ -8,6 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import re
 import os
+import time
 
 
 def get_comments_with_retry(given_driver, delay=0.1):
@@ -30,6 +30,7 @@ firefox_options.add_argument("--no-sandbox")
 firefox_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Firefox(options=firefox_options)
+driver.set_page_load_timeout(120)
 
 pattern = re.compile(r"https://www\.flashscorekz\.com/match/[^/#?]+(?:/[^\s]*)?")
 
